@@ -1,0 +1,47 @@
+<?php
+require_once('../ConnectionClass.php');
+require_once('header.php');
+$obj=new connectionclass();
+?>
+
+<script>
+$('#cat').change(function(){
+var package = $(this).val();
+$.ajax({
+type:'POST',
+data:{package:package},
+url:'get_details.php',
+success:function(data){
+   $('#mail').val(data);
+} 
+});
+</script>
+
+<div class="customerInfo">
+     <div class="blockSelect">
+        <div class="select" style="margin-right: 5px;">
+           <select name="cat" id="cat">
+              <option value="" disabled selected>Customer</option>
+              <?php
+                $qry1="select catname from ewaste_category";
+                         $result=$obj->GetTable($qry1);
+                    while($data = mysqli_fetch_array($result))
+                                        {
+                   
+                echo '<option value="'.$data['catid'].'" data-email="' . $data['catname'] . '">' . $data['price'] . '</option>';
+                    }
+                    ?>
+           </select>
+          
+
+        </div>
+     </div>
+     <div class="blockSelect">
+        <input type="text" name="mail" id="mail" style="color: black; border-bottom: 1px solid;">
+     </div>
+  </div>
+
+
+<?php
+require_once('footer.php');
+?>
